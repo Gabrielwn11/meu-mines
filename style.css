@@ -1,0 +1,919 @@
+:root {
+    --bg-dark: #0f212e;
+    --bg-sidebar: #1a2c38;
+    --bg-tile: #2f4553;
+    --bg-tile-hover: #557086;
+    --accent-green: #00e701;
+    --accent-green-hover: #1fff20;
+    --text-white: #ffffff;
+    --text-gray: #b1bad3;
+    --border-color: #2f4553;
+    --input-bg: #0f212e;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    position: relative;
+}
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-sidebar);
+    padding: 20px;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 0;
+    position: relative;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--accent-green);
+}
+
+.developer-credit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.dev-label {
+    font-size: 11px;
+    color: var(--text-gray);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.dev-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--accent-green);
+    text-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
+    font-family: 'Courier New', monospace;
+}
+
+.balance-display {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+.balance-label {
+    font-size: 12px;
+    color: var(--text-gray);
+    font-weight: 600;
+}
+
+.balance-amount {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--accent-green);
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+/* Notification Styles */
+.notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.notification-content {
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid var(--accent-green);
+    border-radius: 12px;
+    padding: 30px 50px;
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--accent-green);
+    text-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+    animation: notificationPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.notification.hidden {
+    display: none;
+}
+
+/* Explosion Effect */
+.explosion-effect {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 999;
+}
+
+.explosion-effect.hidden {
+    display: none;
+}
+
+.explosion-effect::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 100, 0, 0.8) 0%, rgba(255, 200, 0, 0.4) 50%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: explosionBurst 0.8s ease-out;
+}
+
+.explosion-effect::after {
+    content: '💥';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 120px;
+    transform: translate(-50%, -50%);
+    animation: explosionShake 0.6s ease-out;
+}
+
+/* Screen Shake Effect */
+.shake {
+    animation: screenShake 0.5s;
+}
+
+@keyframes screenShake {
+    0%, 100% { transform: translateX(0); }
+    10% { transform: translateX(-10px); }
+    20% { transform: translateX(10px); }
+    30% { transform: translateX(-10px); }
+    40% { transform: translateX(10px); }
+    50% { transform: translateX(-5px); }
+    60% { transform: translateX(5px); }
+    70% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+    90% { transform: translateX(-2px); }
+}
+
+@keyframes explosionBurst {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+}
+
+@keyframes explosionShake {
+    0% {
+        transform: translate(-50%, -50%) scale(0) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.5) rotate(-10deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes notificationPop {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+.game-wrapper {
+    display: flex;
+    background-color: var(--bg-sidebar);
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 300px;
+    padding: 20px;
+    background-color: var(--bg-sidebar);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-right: 1px solid var(--border-color);
+}
+
+.tabs {
+    display: flex;
+    background-color: var(--bg-dark);
+    border-radius: 50px;
+    padding: 4px;
+}
+
+.tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-gray);
+    padding: 10px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.tab.active {
+    background-color: var(--bg-tile);
+    color: var(--text-white);
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: var(--text-gray);
+    font-weight: 600;
+}
+
+.currency-val {
+    color: var(--accent-green);
+    font-weight: bold;
+}
+
+.input-wrapper {
+    display: flex;
+    background-color: var(--input-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    padding: 5px;
+    align-items: center;
+}
+
+.input-wrapper input {
+    background: transparent;
+    border: none;
+    color: white;
+    width: 100%;
+    padding: 8px;
+    outline: none;
+    font-weight: bold;
+}
+
+.input-wrapper input::-webkit-outer-spin-button,
+.input-wrapper input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.input-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.input-actions button {
+    background-color: var(--bg-tile);
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.input-actions button:hover {
+    background-color: var(--bg-tile-hover);
+}
+
+select {
+    background-color: var(--input-bg);
+    border: 2px solid var(--border-color);
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+select option {
+    background-color: var(--bg-dark);
+    color: white;
+}
+
+.bet-btn {
+    background-color: var(--accent-green);
+    color: #000;
+    border: none;
+    padding: 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.bet-btn:hover:not(:disabled) {
+    background-color: var(--accent-green-hover);
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+}
+
+.bet-btn:disabled {
+    background-color: #2f4553;
+    color: #b1bad3;
+    cursor: not-allowed;
+}
+
+/* Game Info Styles */
+.game-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(0, 255, 0, 0.05) 0%, rgba(0, 100, 0, 0.05) 100%);
+    border: 2px solid rgba(0, 255, 0, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+}
+
+.game-info.hidden {
+    display: none !important;
+}
+
+.multiplier-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.multiplier-label {
+    font-size: 12px;
+    color: var(--text-gray);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.multiplier-value {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--accent-green);
+    text-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+    animation: multiplierGlow 1s ease-in-out infinite;
+}
+
+@keyframes multiplierGlow {
+    0%, 100% {
+        text-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+    }
+    50% {
+        text-shadow: 0 0 25px rgba(0, 255, 0, 0.8);
+    }
+}
+
+.multiplier-bar {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(0, 255, 0, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.multiplier-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-green), #00ff00);
+    width: 0%;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
+}
+
+.profit-section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.profit-label {
+    font-size: 12px;
+    color: var(--text-gray);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.profit-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--accent-green);
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+}
+
+.cashout-btn {
+    background: linear-gradient(135deg, var(--accent-green) 0%, #00cc00 100%);
+    color: #000;
+    border: none;
+    padding: 14px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
+}
+
+.cashout-btn:hover {
+    background: linear-gradient(135deg, var(--accent-green-hover) 0%, #00ff00 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0, 255, 0, 0.5);
+}
+
+.cashout-btn:active {
+    transform: translateY(0);
+}
+
+.cashout-icon {
+    font-size: 20px;
+}
+
+.cashout-text {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Game Board Styles */
+.game-board-container {
+    flex: 1;
+    background-color: var(--bg-dark);
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 1 / 1;
+}
+
+.tile {
+    background-color: var(--bg-tile);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+}
+
+.tile:hover:not(.revealed) {
+    background-color: var(--bg-tile-hover);
+    transform: translateY(-2px);
+}
+
+.tile.revealed {
+    background-color: #071824;
+    cursor: default;
+    transform: none;
+}
+
+.tile.gem {
+    background-color: #071824;
+}
+
+.tile.mine {
+    background-color: #071824;
+}
+
+/* Icons */
+.gem-icon {
+    width: 60%;
+    height: 60%;
+    background: linear-gradient(135deg, #00ff00 0%, #008000 100%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    filter: drop-shadow(0 0 15px rgba(0,255,0,0.6));
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+}
+
+.gem-icon::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    width: 30%;
+    height: 20%;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    transform: rotate(-20deg);
+}
+
+.mine-icon {
+    width: 70%;
+    height: 70%;
+    background: radial-gradient(circle, #ff4d4d 0%, #330000 100%);
+    border-radius: 50%;
+    position: relative;
+    animation: mineExplode 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+}
+
+.mine-icon::after {
+    content: '💣';
+    font-size: 32px;
+    filter: drop-shadow(0 0 5px black);
+    animation: bombSpin 0.6s ease-out;
+}
+
+@keyframes mineExplode {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes bombSpin {
+    0% {
+        transform: rotate(0deg) scale(0);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Responsive - Tablets */
+@media (max-width: 768px) {
+    body {
+        padding: 8px;
+    }
+
+    .header {
+        padding: 15px 10px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .developer-credit {
+        position: static;
+        transform: none;
+        margin: 5px 0;
+        order: 3;
+        width: 100%;
+        text-align: center;
+    }
+
+    .dev-name {
+        font-size: 12px;
+    }
+
+    .balance-label {
+        font-size: 10px;
+    }
+
+    .balance-amount {
+        font-size: 18px;
+    }
+
+    .game-wrapper {
+        flex-direction: column;
+        border-radius: 0;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .control-group {
+        gap: 6px;
+    }
+
+    .label-row {
+        font-size: 12px;
+    }
+
+    .input-wrapper {
+        padding: 4px;
+    }
+
+    .input-wrapper input {
+        padding: 6px;
+        font-size: 14px;
+    }
+
+    .input-actions button {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+
+    select {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .bet-btn {
+        padding: 12px;
+        font-size: 14px;
+        min-height: 44px;
+    }
+
+    .game-info {
+        padding: 15px;
+        gap: 12px;
+    }
+
+    .multiplier-value {
+        font-size: 28px;
+    }
+
+    .profit-value {
+        font-size: 20px;
+    }
+
+    .cashout-btn {
+        padding: 12px;
+        font-size: 14px;
+        min-height: 44px;
+    }
+
+    .cashout-icon {
+        font-size: 18px;
+    }
+
+    .game-board-container {
+        padding: 20px;
+        min-height: auto;
+    }
+
+    .grid {
+        max-width: 100%;
+        gap: 8px;
+    }
+
+    .tile {
+        border-radius: 6px;
+        min-height: 50px;
+    }
+
+    .gem-icon,
+    .mine-icon {
+        width: 55%;
+        height: 55%;
+    }
+
+    .mine-icon::after {
+        font-size: 24px;
+    }
+
+    .notification-content {
+        padding: 20px 40px;
+        font-size: 20px;
+    }
+
+    .explosion-effect {
+        width: 200px;
+        height: 200px;
+    }
+
+    .explosion-effect::after {
+        font-size: 80px;
+    }
+}
+
+/* Responsive - Smartphones */
+@media (max-width: 480px) {
+    body {
+        padding: 5px;
+    }
+
+    .header {
+        padding: 12px 8px;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    .dev-label {
+        font-size: 9px;
+    }
+
+    .dev-name {
+        font-size: 11px;
+    }
+
+    .balance-label {
+        font-size: 9px;
+    }
+
+    .balance-amount {
+        font-size: 16px;
+    }
+
+    .sidebar {
+        padding: 12px;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .tabs {
+        padding: 3px;
+    }
+
+    .tab {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .control-group {
+        gap: 5px;
+    }
+
+    .label-row {
+        font-size: 11px;
+    }
+
+    .input-wrapper {
+        padding: 3px;
+    }
+
+    .input-wrapper input {
+        padding: 5px;
+        font-size: 12px;
+    }
+
+    .input-actions button {
+        padding: 3px 6px;
+        font-size: 11px;
+    }
+
+    select {
+        padding: 6px;
+        font-size: 12px;
+    }
+
+    .bet-btn {
+        padding: 10px;
+        font-size: 13px;
+        min-height: 40px;
+    }
+
+    .game-info {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .multiplier-label,
+    .profit-label {
+        font-size: 10px;
+    }
+
+    .multiplier-value {
+        font-size: 24px;
+    }
+
+    .profit-value {
+        font-size: 18px;
+    }
+
+    .cashout-btn {
+        padding: 10px;
+        font-size: 12px;
+        min-height: 40px;
+    }
+
+    .cashout-icon {
+        font-size: 16px;
+    }
+
+    .cashout-text {
+        font-size: 12px;
+    }
+
+    .game-board-container {
+        padding: 15px;
+    }
+
+    .grid {
+        gap: 6px;
+    }
+
+    .tile {
+        border-radius: 5px;
+    }
+
+    .gem-icon,
+    .mine-icon {
+        width: 50%;
+        height: 50%;
+    }
+
+    .mine-icon::after {
+        font-size: 20px;
+    }
+
+    .notification-content {
+        padding: 15px 30px;
+        font-size: 16px;
+        border-radius: 8px;
+    }
+
+    .explosion-effect {
+        width: 150px;
+        height: 150px;
+    }
+
+    .explosion-effect::after {
+        font-size: 60px;
+    }
+}

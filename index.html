@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <title>Mines - Stake Clone</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header com Saldo -->
+        <div class="header">
+            <div class="logo">💎 Mines</div>
+            <div class="developer-credit">
+                <span class="dev-label">Dev:</span>
+                <span class="dev-name">@biel.rlqq_</span>
+            </div>
+            <div class="balance-display">
+                <span class="balance-label">Saldo</span>
+                <span class="balance-amount" id="balance">$1000.00</span>
+            </div>
+        </div>
+
+        <!-- Notificação de Status -->
+        <div id="notification" class="notification hidden">
+            <div class="notification-content">
+                <span id="notification-text"></span>
+            </div>
+        </div>
+
+        <!-- Efeito de Explosão -->
+        <div id="explosion-effect" class="explosion-effect hidden"></div>
+
+        <div class="game-wrapper">
+            <!-- Sidebar de Controle -->
+            <div class="sidebar">
+                <div class="tabs">
+                    <button class="tab active">Manual</button>
+                    <button class="tab">Auto</button>
+                </div>
+                
+                <div class="control-group">
+                    <div class="label-row">
+                        <span>Bet Amount</span>
+                        <span class="currency-val" id="currency-val">$0.00</span>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="number" id="bet-amount" value="10" step="0.01" min="0">
+                        <div class="input-actions">
+                            <button id="half-bet">½</button>
+                            <button id="double-bet">2x</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="label-row">
+                        <span>Mines</span>
+                    </div>
+                    <select id="mines-count">
+                        <option value="1">1</option>
+                        <option value="3" selected>3</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="24">24</option>
+                    </select>
+                </div>
+
+                <button id="bet-button" class="bet-btn">Bet</button>
+                
+                <div id="game-info" class="game-info hidden">
+                    <div class="multiplier-section">
+                        <div class="multiplier-label">Multiplicador</div>
+                        <div class="multiplier-value" id="multiplier">1.00x</div>
+                        <div class="multiplier-bar">
+                            <div class="multiplier-fill" id="multiplier-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="profit-section">
+                        <div class="profit-label">Lucro Potencial</div>
+                        <div class="profit-value" id="profit">$0.00</div>
+                    </div>
+
+                    <button id="cashout-button" class="cashout-btn">
+                        <span class="cashout-icon">💰</span>
+                        <span class="cashout-text">Saque</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabuleiro do Jogo -->
+            <div class="game-board-container">
+                <div id="game-board" class="grid">
+                    <!-- 25 tiles will be generated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
